@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "app01.apps.App01Config"
 ]
 
 MIDDLEWARE = [
@@ -75,8 +76,12 @@ WSGI_APPLICATION = "inventory_management_django_system.wsgi.application"
 
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+        "ENGINE": "django.db.backends.postgresql_psycopg2",  # 操作引擎
+        "NAME": 'inventory_management_django_system',  # 数据库名(需要自己创建)
+        'USER': 'postgres',  # 数据库用户名
+        'PASSWORD': '123',  # 数据库密码
+        'HOST': 'localhost',  # 数据库主机
+        'PORT': 5432,  # 数据库端口号
     }
 }
 
