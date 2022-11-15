@@ -9,7 +9,7 @@ from django.shortcuts import render
 # 注册功能
 @csrf_exempt #处理跨域
 def register(request):
-    # 获取前端传过来的值--要先转换为json格式
+    # 获取前端传过来的值--request.body表示前端传过来的值，.decode()表示使中文不乱码，用json.loads转换为json格式
     reqBody = json.loads(request.body.decode())
     # print(reqBody)
     username = reqBody['userName']

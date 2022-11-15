@@ -53,7 +53,7 @@ class Order(models.Model):
         super().save(*kwargs)
 
 
-# 临时订单cart表：【orderId，userId，userName，wareId，wareName，wareCount，createTime】
+# 临时订单cart表：【orderId，userId，userName，wareId，wareName，wareCount，createTime，updateTime】
 class Cart(models.Model):
     cartId = models.CharField(primary_key=True, max_length=20)
     userId = models.CharField(max_length=20)
@@ -61,6 +61,7 @@ class Cart(models.Model):
     wareId = models.CharField(max_length=20)
     wareCount = models.DecimalField(max_digits=10, decimal_places=0, default=0)
     createTime = models.DateTimeField(auto_now_add=True)
+    updateTime = models.DateTimeField(auto_now=True)
 
     def save(self, **kwargs):
         if not self.cartId:
