@@ -16,7 +16,9 @@
 
 ● 数据可视化模块中，主要对公司近十年具体的销售额数据进行可视化，里面的数据通过sql语句初始化在数据库表里面，前端无需提供，后端也无法更改，相当于一个独立静态的模块，无数据的改变。
 
-前端代码链接：https://gitee.com/fish-in-jiangan-river/inventory_management_system（看官别忘记给个star哦！）
+前端代码链接：https://gitee.com/fish-in-jiangan-river/inventory_management_system
+
+（看官别忘记给个star哦！）
 
 
 #### 安装教程
