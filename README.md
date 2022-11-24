@@ -4,7 +4,7 @@
 数据库大作业——前后端分离的库存管理系统——django后端部分
 
 #### 软件架构
-本项目是一个前后端分离的库存管理系统，前端采用Vue+Element-Plus+Echarts，后端采用Django+PostgreSQL,
+本项目是一个前后端分离的库存管理系统，前端采用Vue+Element-Plus+Echarts，后端采用Django+PostgreSQL+Redis,
 
 ● 本系统为一个简单的后台管理系统，可为企业提供后台管理服务，主要包括系统用户的登录注册、库存管理、订单管理、临时订单、用户管理、数据可视化六大板块的功能。
 

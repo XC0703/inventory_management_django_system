@@ -23,4 +23,6 @@ urlpatterns = [
     path("miserauth/login", views.userLogin),
     path("miserauth/getloginUser", views.getLoginUser),
     path("miserauth/loginout", views.loginOut),
+    path("saveSalesData", views.saveSalesData),
+    path("getSalesData", views.getSalesData)
 ]
