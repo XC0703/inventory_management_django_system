@@ -28,3 +28,11 @@ def addOrder(request):
     # 防止异常处理太过宽泛
     except AttributeError:
         return JsonResponse({'code': -1, 'msg': '订单添加失败'})
+
+# 订单删除
+# lHlluffy
+@csrf_exempt  # 处理跨域
+def deleteOrder(request):
+    # 获取前端传过来的值--request.body表示前端传过来的值，.decode()表示使中⽂不乱
+    # 码，⽤json.loads转换为json格式
+    reqBody = json.loads(request.body.decode())
