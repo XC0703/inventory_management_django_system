@@ -19,4 +19,5 @@ from app01 import views
 
 urlpatterns = [
     path("miserorder/addOrder", views.addOrder),
+    path("miserorder/deleteOrder", views.deleteOrder),
 ]

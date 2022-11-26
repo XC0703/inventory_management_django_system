@@ -29,6 +29,7 @@ def addOrder(request):
     except AttributeError:
         return JsonResponse({'code': -1, 'msg': '订单添加失败'})
 
+
 # 订单删除
 # lHlluffy
 @csrf_exempt  # 处理跨域
@@ -36,3 +37,23 @@ def deleteOrder(request):
     # 获取前端传过来的值--request.body表示前端传过来的值，.decode()表示使中⽂不乱
     # 码，⽤json.loads转换为json格式
     reqBody = json.loads(request.body.decode())
+    print(reqBody)
+    try:
+        for orderid in reqBody:
+            print(orderid)
+            order_id = Order.objects.filter(orderId=orderid)
+            # exists = models.Order.objects.exists(orderId=orderId).exists()
+            if not order_id.exists():
+                return JsonResponse({'code': -1, 'msg': '删除失败，数据不存在'})
+            else:
+                Order.objects.filter(orderId=orderid).delete()
+                return JsonResponse({'code': 0, 'msg': 'success'})
+    except AttributeError:
+        return JsonResponse({'code': -1, 'msg': '订单删除失败'})
+
+
+
+# 订单查询
+# lHlluffy
+@csrf_exempt  # 处理跨域
+def
