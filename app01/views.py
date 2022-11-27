@@ -76,10 +76,14 @@ def getOrder(request):
     # 获取前端传过来的值--request.body表示前端传过来的值，.decode()表示使中⽂不乱
     # 码，⽤json.loads转换为json格式
     reqBody = json.loads(request.body.decode())
-    print(reqBody)
-    order_id = Order.objects.filter(orderId=reqBody).values()
+    order_id_info = Order.objects.filter(orderId=reqBody).values()
+    order_id = Order.objects.filter(orderId=reqBody)
+    # print(order_id_info)
+    # exists = models.Order.objects.exists(orderId=orderId).exists()
+    if not order_id.exists():
+        return JsonResponse({'code': -1, 'msg': '该订单信息不存在'})
     try:
-        order_info = list(order_id)
-        return JsonResponse({'code': 0, 'msg': 'success', 'orderinfo': order_info})
+        order_info = list(order_id_info)[0]
+        return JsonResponse({'code': 0, 'msg': 'success', 'orderInfo': order_info})
     except AttributeError:
         return JsonResponse({'code': -1, 'msg': '获取订单信息失败'})
