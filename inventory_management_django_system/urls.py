@@ -22,4 +22,6 @@ urlpatterns = [
     path("miserorder/deleteOrder", views.deleteOrder),
     path("miserorder/getOrder", views.getOrder),
     path("miserorder/getOrderlist", views.getOrderlist),
+    path("misercart/addCart", views.addCart),
+    path("misercart/deleteCart", views.deleteCart),
 ]
