@@ -52,8 +52,34 @@ def deleteOrder(request):
         return JsonResponse({'code': -1, 'msg': '订单删除失败'})
 
 
-
-# 订单查询
+# 查询全部订单
 # lHlluffy
 @csrf_exempt  # 处理跨域
-def
+def getOrderlist(request):
+    # 获取前端传过来的值--request.body表示前端传过来的值，.decode()表示使中⽂不乱
+    # 码，⽤json.loads转换为json格式
+    # reqBody = json.loads(request.body.decode())
+    qs = Order.objects.values()
+    try:
+        # 将QuerySet对象转化为list类型
+        # 否则不能被转化为JSON字符串
+        retlist = list(qs)
+        return JsonResponse({'code': 0, 'msg': 'success', 'retlist': retlist})
+    except AttributeError:
+        return JsonResponse({'code': -1, 'msg': '获取订单信息失败'})
+
+
+# 查询单个订单
+# lHlluffy
+@csrf_exempt  # 处理跨域
+def getOrder(request):
+    # 获取前端传过来的值--request.body表示前端传过来的值，.decode()表示使中⽂不乱
+    # 码，⽤json.loads转换为json格式
+    reqBody = json.loads(request.body.decode())
+    print(reqBody)
+    order_id = Order.objects.filter(orderId=reqBody).values()
+    try:
+        order_info = list(order_id)
+        return JsonResponse({'code': 0, 'msg': 'success', 'orderinfo': order_info})
+    except AttributeError:
+        return JsonResponse({'code': -1, 'msg': '获取订单信息失败'})
