@@ -21,4 +21,8 @@ from app01 import views
 # 注册路由
 urlpatterns = [
     path("miseruser/addUser", views.addUser),
+    path("miseruser/deleteUser", views.deleteUser),
+    path("miseruser/changeUser", views.changeUser),
+    path("miseruser/getUserlist", views.getUserlist),
+    path("miseruser/getUser", views.getUser),
 ]
