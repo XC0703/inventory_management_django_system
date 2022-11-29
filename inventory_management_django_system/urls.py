@@ -25,4 +25,10 @@ urlpatterns = [
     path("miseruser/changeUser", views.changeUser),
     path("miseruser/getUserlist", views.getUserlist),
     path("miseruser/getUser", views.getUser),
+    path("miseruser/addware", views.addware),
+    path("miseruser/deleteWare", views.deleteWare),
+    path("miseruser/changeWare", views.changeWare),
+    path("miseruser/getWarelist", views.getWarelist),
+    path("miseruser/getWare", views.getWare),
 ]
+
