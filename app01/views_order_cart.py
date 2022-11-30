@@ -28,19 +28,6 @@ class BootStrapModelForm(forms.ModelForm):
                 field.widget.attrs = {"class": "form-control"}
 
 
-# 继承bootstrap类
-class CartModelForm(BootStrapModelForm):
-    id = forms.CharField(min_length=2,
-                           label="cartId",
-                           )
-
-    # 正则表达式
-    RegexValidator()
-
-    # class Meta:
-    #     model = models.cartfield
-    #     fields = ["cartId", "userId", "userName", "wareId", "wareName", "wareCount"]
-
 # 订单添加
 # lHlluffy
 @csrf_exempt  # 处理跨域
@@ -49,14 +36,30 @@ def addOrder(request):
     # 码，⽤json.loads转换为json格式
     reqBody = json.loads(request.body.decode())
     try:
-        order_save = Order(userId=reqBody['userId'],
-                           userName=reqBody['userName'],
-                           wareCount=reqBody['wareCount'],
-                           wareId=reqBody['wareId'],
-                           wareName=reqBody['wareName'])
-        order_save.save()
-        '''改ware表count'''
-        return JsonResponse({'code': 0, 'msg': 'success'})
+        '''更改物品数量'''
+        # 改变库存中对应物品的数量
+        ware_id = reqBody['wareId']
+        ware_count = reqBody['wareCount']
+        ware_name = reqBody['wareName']
+        warecount_ori = Ware.objects.get(wareId=ware_id).wareCount
+        warecount_fin = warecount_ori - ware_count
+        warename_ori = Ware.objects.get(wareId=ware_id).wareName
+
+        if ware_name != warename_ori:
+            return JsonResponse({'code': -1, 'msg': '物品编号和物品名不匹配'})
+        elif warecount_fin < 0:
+            return JsonResponse({'code': -1, 'msg': '库存物品数量不足'})
+        else:
+            row_object = Ware.objects.filter(wareId=ware_id)
+            row_object.update(wareCount=warecount_fin)
+            '''物品数量更新后添加订单记录'''
+            order_save = Order(userId=reqBody['userId'],
+                               userName=reqBody['userName'],
+                               wareCount=reqBody['wareCount'],
+                               wareId=reqBody['wareId'],
+                               wareName=reqBody['wareName'])
+            order_save.save()
+            return JsonResponse({'code': 0, 'msg': 'success'})
     # 防止异常处理太过宽泛
     except AttributeError:
         return JsonResponse({'code': -1, 'msg': '订单添加失败'})
@@ -76,7 +79,7 @@ def deleteOrder(request):
             order_id = Order.objects.filter(orderId=orderid)
             # exists = models.Order.objects.exists(orderId=orderId).exists()
             if not order_id.exists():
-                return JsonResponse({'code': -1, 'msg': '删除失败，数据不存在'})
+                return JsonResponse({'code': -1, 'msg': '删除失败，数据不存在', '错误发生id':order_id})
             else:
                 Order.objects.filter(orderId=orderid).delete()
         return JsonResponse({'code': 0, 'msg': 'success'})
@@ -156,7 +159,7 @@ def deleteCart(request):
             print(cart_id)
             # exists = models.Order.objects.exists(orderId=orderId).exists()
             if not cart_id.exists():
-                return JsonResponse({'code': -1, 'msg': '删除失败，数据不存在'})
+                return JsonResponse({'code': -1, 'msg': '删除失败，数据不存在', '错误发生id':cart_id})
             else:
                 Cart.objects.filter(cartId=cartid).delete()
         return JsonResponse({'code': 0, 'msg': 'success'})
@@ -188,3 +191,35 @@ def editCart(request):
 
 
 
+#临时订单提交（删除临时订单，数据添加到订单，并更改物品数量)
+@csrf_exempt  # 处理跨域
+def transCart(request):
+    # 获取前端传过来的值--request.body表示前端传过来的值，.decode()表示使中⽂不乱
+    # 码，⽤json.loads转换为json格式
+    reqBody = json.loads(request.body.decode())
+    try:
+        ware_id = reqBody['wareId']
+        ware_count = reqBody['wareCount']
+        warecount_ori = Ware.objects.get(wareId=ware_id).wareCount
+        warecount_fin = warecount_ori - ware_count
+        if warecount_fin < 0:
+            return JsonResponse({'code': -1, 'msg': '库存物品数量不足'})
+        else:
+            # 改变库存中对应物品的数量
+            row_object = Ware.objects.filter(wareId=ware_id)
+            row_object.update(wareCount=warecount_fin)
+            # 将临时订单添加到订单
+            order_save = Order(userId=reqBody['userId'],
+                               userName=reqBody['userName'],
+                               wareCount=reqBody['wareCount'],
+                               wareId=reqBody['wareId'],
+                               wareName=reqBody['wareName'])
+            order_save.save()
+            print("success")
+            # 添加完成后删除该临时订单
+            cart_id = reqBody['cartId']
+            Cart.objects.filter(cartId=cart_id).delete()
+            print("success")
+            return JsonResponse({"code": 0, 'msg': 'success'})
+    except AttributeError:
+        return JsonResponse({'code': -1, 'msg': '临时订单提交失败'})
