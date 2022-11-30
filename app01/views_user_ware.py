@@ -6,7 +6,6 @@ from django.views.decorators.csrf import csrf_exempt
 import json
 from django.http import JsonResponse
 
-
 #userId
 #userName
 #userPassword

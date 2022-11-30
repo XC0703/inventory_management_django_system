@@ -55,5 +55,4 @@ urlpatterns = [
     path("miserware/getWarelist", views_user_ware.getWarelist),
     #查询单个物品
     path("miserware/getWare", views_user_ware.getWare),
-
 ]

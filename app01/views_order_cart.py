@@ -12,20 +12,6 @@ from django import forms
 from django.core.validators import RegexValidator
 
 
-# 定义bootstrap类
-class BootStrapModelForm(forms.ModelForm):
-    # 定义init方法
-    def __init__(self, *args, **kwargs):
-        # 执行父类的init方法
-        super().__init__(*args, **kwargs)
-        # 循环modelform每一个字段，设置字段的插件
-        for id, field in self.fields.items():
-            if field.widget.attrs:
-                # 若字典内有值
-                field.widget.attrs["class"] = "form-control"
-            else:
-                # 若字典内有值
-                field.widget.attrs = {"class": "form-control"}
 
 
 # 订单添加
