@@ -16,19 +16,30 @@ Including another URLconf
 
 # 导入所需模块
 from django.urls import path
-from app01 import views
+from app01 import views_user
+from app01 import views_ware
 
 # 注册路由
 urlpatterns = [
-    path("miseruser/addUser", views.addUser),
-    path("miseruser/deleteUser", views.deleteUser),
-    path("miseruser/changeUser", views.changeUser),
-    path("miseruser/getUserlist", views.getUserlist),
-    path("miseruser/getUser", views.getUser),
-    path("miseruser/addware", views.addware),
-    path("miseruser/deleteWare", views.deleteWare),
-    path("miseruser/changeWare", views.changeWare),
-    path("miseruser/getWarelist", views.getWarelist),
-    path("miseruser/getWare", views.getWare),
+    #增加用户
+    path("miseruser/addUser", views_user.addUser),
+    #删除用户
+    path("miseruser/deleteUser", views_user.deleteUser),
+    #更改用户
+    path("miseruser/changeUser", views_user.changeUser),
+    #查询全部用户
+    path("miseruser/getUserlist", views_user.getUserlist),
+    #查询单个用户
+    path("miseruser/getUser/<theme>", views_user.getUser, name='userid'),
+    #新增库存
+    path("miserware/addware", views_ware.addware),
+    #删除库存
+    path("miserware/deleteWare", views_ware.deleteWare),
+    #更改库存
+    path("miserware/changeWare", views_ware.changeWare),
+    #查询全部库存
+    path("miserware/getWarelist", views_ware.getWarelist),
+    #查询单个库存
+    path("miserware/getWare/<theme>", views_ware.getWare, name='wareid'),
 ]
 
