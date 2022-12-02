@@ -24,11 +24,11 @@ class User(models.Model):
             cursor = connection.cursor()
             if idCount == 0:
                 # 要想使用sql原生语句，必须用到execute()函数,然后在里面写入sql原生语句
-                cursor.execute("TRUNCATE app01_user RESTART IDENTITY")
+                cursor.execute("TRUNCATE app_user RESTART IDENTITY")
             maxid = User.objects.aggregate(Max('id')).get("id__max")
             # 让主键从什么位置开始排序
             if maxid is not None:
-                cursor.execute("ALTER SEQUENCE app01_user_id_seq RESTART WITH %s", [maxid+1])
+                cursor.execute("ALTER SEQUENCE app_user_id_seq RESTART WITH %s", [maxid+1])
             self.userId = "{}{:06d}".format('user', (maxid+1) if maxid is not None else 1)
         super().save(*kwargs)
 
@@ -39,7 +39,7 @@ class Ware(models.Model):
 
     wareId = models.CharField(max_length=20)
     wareName = models.CharField(unique=True, max_length=15)
-    warePower = models.DecimalField(max_digits=3, decimal_places=0, default=0)
+    warePower = models.DecimalField(max_digits=8, decimal_places=0, default=0)
     wareCount = models.DecimalField(max_digits=10, decimal_places=0, default=0)
     createTime = models.DateTimeField(auto_now_add=True)
     updateTime = models.DateTimeField(auto_now=True)
@@ -50,11 +50,11 @@ class Ware(models.Model):
             cursor = connection.cursor()
             if idCount == 0:
                 # 要想使用sql原生语句，必须用到execute()函数,然后在里面写入sql原生语句
-                cursor.execute("TRUNCATE app01_ware RESTART IDENTITY")
+                cursor.execute("TRUNCATE app_ware RESTART IDENTITY")
             maxid = Ware.objects.aggregate(Max('id')).get("id__max")
             # 让主键从什么位置开始排序
             if maxid is not None:
-                cursor.execute("ALTER SEQUENCE app01_ware_id_seq RESTART WITH %s", [maxid+1])
+                cursor.execute("ALTER SEQUENCE app_ware_id_seq RESTART WITH %s", [maxid+1])
             self.wareId = "{}{:06d}".format('ware', (maxid+1) if maxid is not None else 1)
         super().save(*kwargs)
 
@@ -77,11 +77,11 @@ class Order(models.Model):
             cursor = connection.cursor()
             if idCount == 0:
                 # 要想使用sql原生语句，必须用到execute()函数,然后在里面写入sql原生语句
-                cursor.execute("TRUNCATE app01_order RESTART IDENTITY")
+                cursor.execute("TRUNCATE app_order RESTART IDENTITY")
             maxid = Order.objects.aggregate(Max('id')).get("id__max")
             # 让主键从什么位置开始排序
             if maxid is not None:
-                cursor.execute("ALTER SEQUENCE app01_order_id_seq RESTART WITH %s", [maxid+1])
+                cursor.execute("ALTER SEQUENCE app_order_id_seq RESTART WITH %s", [maxid+1])
             self.orderId = "{}{:06d}".format('order', (maxid+1) if maxid is not None else 1)
         super().save(*kwargs)
 
@@ -105,11 +105,11 @@ class Cart(models.Model):
             cursor = connection.cursor()
             if idCount == 0:
                 # 要想使用sql原生语句，必须用到execute()函数,然后在里面写入sql原生语句
-                cursor.execute("TRUNCATE app01_cart RESTART IDENTITY")
+                cursor.execute("TRUNCATE app_cart RESTART IDENTITY")
             maxid = Cart.objects.aggregate(Max('id')).get("id__max")
             # 让主键从什么位置开始排序
             if maxid is not None:
-                cursor.execute("ALTER SEQUENCE app01_cart_id_seq RESTART WITH %s", [maxid+1])
+                cursor.execute("ALTER SEQUENCE app_cart_id_seq RESTART WITH %s", [maxid+1])
             self.cartId = "{}{:06d}".format('cart', (maxid+1) if maxid is not None else 1)
         super().save(*kwargs)
 
@@ -131,11 +131,11 @@ class Sales(models.Model):
             cursor = connection.cursor()
             if idCount == 0:
                 # 要想使用sql原生语句，必须用到execute()函数,然后在里面写入sql原生语句
-                cursor.execute("TRUNCATE app01_sales RESTART IDENTITY")
+                cursor.execute("TRUNCATE app_sales RESTART IDENTITY")
             maxid = Sales.objects.aggregate(Max('id')).get("id__max")
             # 让主键从什么位置开始排序
             if maxid is not None:
-                cursor.execute("ALTER SEQUENCE app01_sales_id_seq RESTART WITH %s", [maxid+1])
+                cursor.execute("ALTER SEQUENCE app_sales_id_seq RESTART WITH %s", [maxid+1])
             self.salesId = "{}{:06d}".format('sales', (maxid+1) if maxid is not None else 1)
         super().save(*kwargs)
 
