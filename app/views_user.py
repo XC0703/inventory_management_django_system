@@ -17,7 +17,7 @@ def addUser(request):
     username = reqBody['userName']
     password = reqBody['userPassword']
     userPower = reqBody['userPower']
-    if username and password:
+    if username and password and userPower:
         # 判断字符串长度
         if len(username) > 15 or len(password) > 20:
             return JsonResponse({'code': -1, 'msg': '用户名或密码过长'})
@@ -31,7 +31,7 @@ def addUser(request):
         # 返回注册成功信息给前端
         return JsonResponse({'code': 0, 'msg': 'success'})
     else:
-        return JsonResponse({'code': -1, "msg": "用户名或密码不能为空"})
+        return JsonResponse({'code': -1, "msg": "请输入有效信息"})
 
 
 # 删除用户功能
@@ -64,7 +64,7 @@ def updateUser(request):
     username = reqBody['userName']
     password = reqBody['userPassword']
     power = reqBody['userPower']
-    if username and password :
+    if username and password and power:
         # 判断字符串长度
         if len(username) > 15 or len(password) > 20:
             return JsonResponse({'code': -1, 'msg': '用户名或密码过长'})
@@ -82,7 +82,7 @@ def updateUser(request):
         # 返回成功信息给前端
         return JsonResponse({'code': 0, 'msg': 'success'})
     else:
-        return JsonResponse({'code': -1, "msg": "用户名或密码不能为空"})
+        return JsonResponse({'code': -1, "msg": "请输入有效信息"})
 
 
 # 获取用户信息清单

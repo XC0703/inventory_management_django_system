@@ -62,7 +62,7 @@ urlpatterns = [
     # 删除临时订单
     path("misercart/deleteCart", views_cart.deleteCart),
     # 编辑临时订单
-    path("misercart/editCart", views_cart.editCart),
+    path("misercart/updateCart", views_cart.updateCart),
     # 查询临时订单,需要判断用户权限，高于100才能获取全部
     path("misercart/getCartlist", views_cart.getCartlist),
     # 提交临时订单

@@ -18,7 +18,7 @@ def addware(request):
     warename = reqBody['wareName']
     count = reqBody['wareCount']
     warepower = reqBody['warePower']
-    if warename and count and warepower:
+    if warename and count and warepower and count > 0 and warepower > 0:
         # 判断字符串长度
         if len(warename) > 15:
             return JsonResponse({'code': -1, 'msg': '物品名过长'})
@@ -27,13 +27,13 @@ def addware(request):
         if waren_name.exists():
             return JsonResponse({'code': -1, 'msg': '物品名已存在'})
         # 如果不重复，在保存有关信息
-        #warePower最大值为8位数
+        # arePower最大值为8位数
         ware_save = Ware(wareName=warename, wareCount=count, warePower= warepower)
         ware_save.save()
         # 返回注册成功信息给前端
         return JsonResponse({'code': 0, 'msg': 'success'})
     else:
-        return JsonResponse({'code': -1, "msg": "物品信息不能为空"})
+        return JsonResponse({'code': -1, "msg": "请输入有效信息"})
 
 
 # 删除库存功能
@@ -64,7 +64,7 @@ def updateWare(request):
     warename = reqBody['wareName']
     Count = reqBody['wareCount']
     power = reqBody['warePower']
-    if warename and Count and power:
+    if warename and Count and power and Count > 0 and power > 0:
         # 判断字符串长度
         if len(warename) > 15:
             return JsonResponse({'code': -1, 'msg': '物品名过长'})
@@ -82,7 +82,7 @@ def updateWare(request):
         # 返回成功信息给前端
         return JsonResponse({'code': 0, 'msg': 'success'})
     else:
-        return JsonResponse({'code': -1, "msg": "物品信息不能为空"})
+        return JsonResponse({'code': -1, "msg": "请输入有效信息"})
 
     # 查询全部库存
 

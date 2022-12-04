@@ -66,7 +66,7 @@ def deleteCart(request):
 
 # 编辑临时订单
 @csrf_exempt  # 处理跨域
-def editCart(request):
+def updateCart(request):
     # 获取前端传过来的值--request.body表示前端传过来的值，.decode()表示使中⽂不乱
     # 码，⽤json.loads转换为json格式
     reqBody = json.loads(request.body.decode())
@@ -75,7 +75,7 @@ def editCart(request):
         wareCount = reqBody['wareCount']
         row_object = Cart.objects.filter(cartId=cartId)
         if not row_object.exists():
-            return JsonResponse({"code": -1, 'msg': "数据不存在，请刷新重试。"})
+            return JsonResponse({"code": -1, 'msg': "数据不存在，请刷新重试"})
         else:
             row_object.update(wareCount=wareCount)
         # form = CartModelForm(data=request.POST, instance=row_object)
@@ -109,7 +109,7 @@ def getCartlist(request):
                 userid = user["userId"]
                 qs = Cart.objects.filter(userId=userid).values()
                 retlist = list(qs)
-                return JsonResponse({'code': 0, 'msg': 'success', 'line': '用户权限不足，显示个人临时订单', 'cartList': retlist})
+                return JsonResponse({'code': 0, 'msg': 'success', 'line': '权限不足，仅显示个人负责的临时订单', 'cartList': retlist})
         else:
             return JsonResponse({'code': -1, "msg": "未查找到登录信息"})
     except AttributeError:
@@ -152,7 +152,7 @@ def transCart(request):
         if len(fail_ware_ids) == 0:
             return JsonResponse({"code": 0, 'msg': 'success'})
         else:
-            return JsonResponse({'code': -1, 'msg': '库存物品数量不足', "数量不足的物品": fail_ware_ids})
+            return JsonResponse({'code': -1, 'msg': '库存物品数量不足', 'fail_ware_ids': fail_ware_ids})
     except AttributeError:
         return JsonResponse({'code': -1, 'msg': '临时订单提交失败'})
 
