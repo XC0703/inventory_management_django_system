@@ -25,6 +25,9 @@
 
 `git clone https://gitee.com/fish-in-jiangan-river/inventory_management_system.git`
 
+#### 使用说明
+
+`python .\manage.py runserver`
 
 #### 特技
 

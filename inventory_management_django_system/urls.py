@@ -16,9 +16,12 @@ Including another URLconf
 # 导入所需模块
 from django.urls import path
 from app import views_auth, views_ware, views_user, views_sales, views_order, views_cart
+from django.views.generic import TemplateView
 
 # 注册路由
 urlpatterns = [
+    path('', TemplateView.as_view(template_name='index.html')),
+
     # 库存管理模块--miserware
     # 新增库存
     path("miserware/addware", views_ware.addware),
