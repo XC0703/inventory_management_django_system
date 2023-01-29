@@ -78,7 +78,14 @@ def updateWare(request):
             if not warename == warename_ori:
                 return JsonResponse({'code': -1, 'msg': '物品名已存在'})
         # 如果id存在，保存有关信息
-        Ware.objects.filter(wareId=wareid).update(wareName=warename, wareCount=Count, warePower=power)
+        # 为什么用save不用update？因为只有在调用 Model.save() 时，该字段才会自动更新。
+        # 当以其他方式对其他字段进行更新时，如 QuerySet.update()，该字段不会被更新，
+        # 参考博客：http://t.csdn.cn/5uhRJ
+        ret = Ware.objects.filter(wareId=wareid).first()
+        ret.wareName = warename
+        ret.wareCount = Count
+        ret.warePower = power
+        ret.save()
         # 返回成功信息给前端
         return JsonResponse({'code': 0, 'msg': 'success'})
     else:

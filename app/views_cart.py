@@ -77,7 +77,13 @@ def updateCart(request):
         if not row_object.exists():
             return JsonResponse({"code": -1, 'msg': "数据不存在，请刷新重试"})
         else:
-            row_object.update(wareCount=wareCount)
+            # 如果id存在，保存有关信息
+            # 为什么用save不用update？因为只有在调用 Model.save() 时，该字段才会自动更新。
+            # 当以其他方式对其他字段进行更新时，如 QuerySet.update()，该字段不会被更新，
+            # 参考博客：http://t.csdn.cn/5uhRJ
+            ret = row_object.first()
+            ret.wareCount = wareCount
+            ret.save()
         # form = CartModelForm(data=request.POST, instance=row_object)
         # if form.is_valid():
         #     form.save()
