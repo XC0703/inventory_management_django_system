@@ -30,8 +30,13 @@ def addOrder(request):
         elif warecount_fin < 0:
             return JsonResponse({'code': -1, 'msg': '库存物品数量不足'})
         else:
-            row_object = Ware.objects.filter(wareId=ware_id)
-            row_object.update(wareCount=warecount_fin)
+            # 如果id存在，保存有关信息
+            # 为什么用save不用update？因为只有在调用 Model.save() 时，该字段才会自动更新。
+            # 当以其他方式对其他字段进行更新时，如 QuerySet.update()，该字段不会被更新，
+            # 参考博客：http://t.csdn.cn/5uhRJ
+            ret = Ware.objects.filter(wareId=ware_id).first()
+            ret.wareCount = warecount_fin
+            ret.save()
             '''物品数量更新后添加订单记录'''
             order_save = Order(userId=reqBody['userId'],
                                userName=reqBody['userName'],
